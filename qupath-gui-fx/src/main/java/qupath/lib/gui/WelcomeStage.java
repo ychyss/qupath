@@ -55,7 +55,7 @@ import qupath.lib.gui.prefs.PathPrefs.AutoUpdateType;
 import qupath.lib.gui.prefs.QuPathStyleManager;
 import qupath.lib.gui.tools.GuiTools;
 import qupath.lib.gui.tools.PaneTools;
-
+//import qupath.lib.LocaleMessage;
 
 /**
  * Welcome page when launching QuPath.
@@ -108,15 +108,15 @@ class WelcomeStage {
 				);
 		var paneButtons = PaneTools.createColumnGrid(btnDocs, btnForum, btnCode);
 //		paneButtons.setHgap(10);
-				
+		// 按钮面板（DOCS discuss develop）
 		var pane = new BorderPane(paneButtons);
-		
+		// 图片
 		var imageView = new ImageView(WelcomeStage.class.getResource("/images/qupath-welcome.png").toExternalForm());
 		imageView.setFitWidth(440.0);
 		imageView.setOpacity(0.9);
 		imageView.setPreserveRatio(true);
-		
-		var textTitle = new Text("Welcome to QuPath!");
+
+		var textTitle = new Text("欢迎使用QuPath!");
 		textTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 150%; -fx-fill: -fx-text-base-color;");
 
 		var topPane = new VBox();
@@ -144,10 +144,12 @@ class WelcomeStage {
 		pane.setTop(topPane);
 		
 //		var labelExplanation = new Label("Click a button to learn about QuPath - or choose 'Get started!' below");
-		String defaultMessage = "Find out more about QuPath, customize key options,\n"
-				+ "or click 'Get started!' to close this message";
+//		String defaultMessage = "Find out more about QuPath, customize key options,\n"
+//				+ "or click 'Get started!' to close this message";
+		String defaultMessage = "";
 		var labelExplanation = new Label(defaultMessage);
 		labelExplanation.setAlignment(Pos.CENTER);
+		// hover的文字显示
 		labelExplanation.textProperty().bind(Bindings.createStringBinding(() -> {
 			if (btnCode.isHover()) {
 				return "Check out QuPath's source code on GitHub -\n"
@@ -170,7 +172,7 @@ class WelcomeStage {
 		var comboThemes = new ComboBox<>(QuPathStyleManager.availableStylesProperty());
 		comboThemes.getSelectionModel().select(QuPathStyleManager.selectedStyleProperty().get());
 		comboThemes.getSelectionModel().selectedItemProperty().addListener((v, o, n) -> QuPathStyleManager.selectedStyleProperty().set(n));
-		var labelThemes = new Label("Choose theme:");
+		var labelThemes = new Label("Choose Theme:"); // LocaleMessage.getInstance().get("choose.theme")
 		labelThemes.setLabelFor(comboThemes);
 		labelThemes.setAlignment(Pos.CENTER_RIGHT);
 		

@@ -326,7 +326,7 @@ public class PathPrefs {
 		return maskImageNames;
 	}
 	
-	private static ObjectProperty<Locale> defaultLocale = createPersistentPreference("locale", null, Locale.US);
+	private static ObjectProperty<Locale> defaultLocale = createPersistentPreference("i18n", null, Locale.US);
 
 	private static ObjectProperty<Locale> defaultLocaleFormat = createPersistentPreference("localeFormat", Category.FORMAT, Locale.getDefault(Category.FORMAT));
 	private static ObjectProperty<Locale> defaultLocaleDisplay = createPersistentPreference("localeDisplay", Category.DISPLAY, Locale.getDefault(Category.DISPLAY));

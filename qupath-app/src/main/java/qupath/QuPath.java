@@ -189,7 +189,7 @@ public class QuPath {
 		
 			if (qupath.image != null && !qupath.image.equals(""))
 				CLIArgs.add("--image=" + getEncodedPath(qupath.image));
-			
+			// 在这里启动
 			QuPathApp.launch(QuPathApp.class, CLIArgs.toArray(new String[CLIArgs.size()]));
 			
 		} else {

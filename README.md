@@ -4,6 +4,9 @@
 [![Paper](https://zenodo.org/badge/DOI/10.1038/s41598-017-17204-5.svg)](https://doi.org/10.1038/s41598-017-17204-5)
 [![Twitter](https://img.shields.io/twitter/follow/qupath?style=flat)](http://twitter.com/qupath)
 
+# 说明
+修改
+
 # QuPath
 
 **QuPath is open source software for bioimage analysis**.

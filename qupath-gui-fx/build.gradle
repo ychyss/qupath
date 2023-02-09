@@ -29,6 +29,7 @@ dependencies {
   implementation libs.bundles.ikonli
   
   implementation libs.bundles.markdown
+    implementation 'junit:junit:4.13.1'
 }
 
 javafx {
