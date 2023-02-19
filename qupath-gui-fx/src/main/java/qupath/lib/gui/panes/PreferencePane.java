@@ -60,6 +60,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
+import qupath.lib.LocaleMessage;
 import qupath.lib.common.GeneralTools;
 import qupath.lib.gui.dialogs.Dialogs;
 import qupath.lib.gui.logging.LogManager;
@@ -68,7 +69,9 @@ import qupath.lib.gui.prefs.PathPrefs;
 import qupath.lib.gui.prefs.PathPrefs.AutoUpdateType;
 import qupath.lib.gui.prefs.PathPrefs.DetectionTreeDisplayModes;
 import qupath.lib.gui.prefs.PathPrefs.FontSize;
+import qupath.lib.gui.prefs.PathPrefs.LabelLocation;
 import qupath.lib.gui.prefs.PathPrefs.ImageTypeSetting;
+import qupath.lib.gui.prefs.PathPrefs.Delimiter;
 import qupath.lib.gui.tools.ColorToolsFX;
 import qupath.lib.gui.tools.CommandFinderTools;
 import qupath.lib.gui.tools.CommandFinderTools.CommandBarDisplay;
@@ -97,40 +100,38 @@ public class PreferencePane {
 		/*
 		 * Appearance
 		 */
-		String category = "Appearance";
+		String category = LocaleMessage.getInstance().get("PreferencePane.Appearance");
+
 		addChoicePropertyPreference(QuPathStyleManager.selectedStyleProperty(),
 				QuPathStyleManager.availableStylesProperty(),
 				QuPathStyleManager.StyleOption.class,
-				"Theme",
+				LocaleMessage.getInstance().get("PreferencePane.Appearance.Theme"),
 				category,
-				"Theme for the QuPath user interface");
+				LocaleMessage.getInstance().get("PreferencePane.Appearance.Theme.Description"));
 		
 		addChoicePropertyPreference(QuPathStyleManager.fontProperty(),
 				QuPathStyleManager.availableFontsProperty(),
 				QuPathStyleManager.Fonts.class,
-				"Font",
+				LocaleMessage.getInstance().get("PreferencePane.Appearance.Font"),
 				category,
-				"Main font for the QuPath user interface");
+				LocaleMessage.getInstance().get("PreferencePane.Appearance.Font.Description"));
 	}
 	
 	private void addCategoryGeneral() {
 		/*
 		 * General
 		 */
-		String category = "General";
+		String category = LocaleMessage.getInstance().get("PreferencePane.General");
 		
-
 		boolean canSetMemory = PathPrefs.hasJavaPreferences();
 		long maxMemoryMB = Runtime.getRuntime().maxMemory() / 1024 / 1024;
 		if (canSetMemory) {
 			DoubleProperty propMemoryGB = new SimpleDoubleProperty(maxMemoryMB / 1024.0);
 			
 			addPropertyPreference(propMemoryGB, Double.class, 
-					"Set maximum memory for QuPath",
+					LocaleMessage.getInstance().get("PreferencePane.General.MaxMemory"),
 					category,
-					"Set the maximum memory for Java.\n"
-							+ "Note that some commands (e.g. pixel classification) may still use more memory when needed,\n"
-							+ "so this value should generally not exceed half the total memory available on the system.");
+					LocaleMessage.getInstance().get("PreferencePane.General.MaxMemory.Description"));
 			
 			propMemoryGB.addListener((v, o, n) -> {
 				int requestedMemoryMB = (int)Math.round(propMemoryGB.get() * 1024.0);
@@ -159,56 +160,54 @@ public class PreferencePane {
 		
 		
 		addPropertyPreference(PathPrefs.showStartupMessageProperty(), Boolean.class,
-				"Show welcome message when QuPath starts",
+				LocaleMessage.getInstance().get("PreferencePane.General.ShowWelcomeMessage"),
 				category,
-				"Show the welcome message with links to the docs, forum & code every time QuPath is launched.\n"
-				+ "You can access this message at any time through the 'Help' menu.");
+				LocaleMessage.getInstance().get("PreferencePane.General.ShowWelcomeMessage.Description"));
 		
 		addPropertyPreference(PathPrefs.autoUpdateCheckProperty(), AutoUpdateType.class,
-				"Check for updates on startup",
+				LocaleMessage.getInstance().get("PreferencePane.General.CheckForUpdates"),
 				category,
-				"Automatically check for updates when QuPath is started, and show a message if a new version is available.");
+				LocaleMessage.getInstance().get("PreferencePane.General.CheckForUpdates.Description"));
 
 		addPropertyPreference(PathPrefs.runStartupScriptProperty(), Boolean.class,
-				"Run startup script (if available)",
+				LocaleMessage.getInstance().get("PreferencePane.General.RunStartupScript"),
 				category,
-				"If a script is added to the user directory called 'startup.groovy', try to execute this script whenever QuPath is launched.");
+				LocaleMessage.getInstance().get("PreferencePane.General.RunStartupScript.Description"));
 
 		addPropertyPreference(PathPrefs.useSystemMenubarProperty(), Boolean.class,
-				"Use system menubar",
+				LocaleMessage.getInstance().get("PreferencePane.General.UseSystemMenubar"),
 				category,
-				"Use the system menubar, rather than custom application menubars (default is true).");
+				LocaleMessage.getInstance().get("PreferencePane.General.UseSystemMenubar.Description"));
 				
 		addPropertyPreference(PathPrefs.tileCachePercentageProperty(),
 				Double.class,
-				"Percentage memory for tile caching",
+				LocaleMessage.getInstance().get("PreferencePane.General.PercentageMemoryForTileCaching"),
 				category,
-				"Percentage of maximum memory to use for caching image tiles (must be >10% and <90%; suggested value is 25%)." +
-				"\nA high value can improve performance (especially for multichannel images), but increases risk of out-of-memory errors." +
-				"\nChanges take effect when QuPath is restarted.");
+				LocaleMessage.getInstance().get("PreferencePane.General.PercentageMemoryForTileCaching.Description"));
 		
 		addPropertyPreference(PathPrefs.showImageNameInTitleProperty(), Boolean.class,
-				"Show image name in window title",
+				LocaleMessage.getInstance().get("PreferencePane.General.ShowImageNameInTitle"),
 				category,
-				"Show the name of the current image in the main QuPath title bar (turn this off if the name shouldn't be seen).");
+				LocaleMessage.getInstance().get("PreferencePane.General.ShowImageNameInTitle.Description"));
 		
 		addPropertyPreference(PathPrefs.maskImageNamesProperty(), Boolean.class,
-				"Mask image names in projects",
+				LocaleMessage.getInstance().get("PreferencePane.General.ShowMaskImageNamesInProjects"),
 				category,
-				"Mask the image names when using projects, to help reduce the potential for user bias during analysis.");
+				LocaleMessage.getInstance().get("PreferencePane.General.ShowMaskImageNamesInProjects.Description"));
 		
 		
 		addPropertyPreference(PathPrefs.doCreateLogFilesProperty(), Boolean.class,
-				"Create log files",
+				LocaleMessage.getInstance().get("PreferencePane.General.CreateLogFiles"),
 				category,
-				"Create log files when using QuPath inside the QuPath user directory (useful for debugging & reporting errors)");
+				LocaleMessage.getInstance().get("PreferencePane.General.CreateLogFiles.Description"));
 		
-		addPropertyPreference(LogManager.rootLogLevelProperty(), LogManager.LogLevel.class, "Log level", category,
-				"Logging level, which determines the number of logging messages.\n"
-				+ "It is recommended to use only INFO or DEBUG; more frequent logging (e.g. TRACE, ALL) will likely cause performance issues.");
+		addPropertyPreference(LogManager.rootLogLevelProperty(), LogManager.LogLevel.class,
+				LocaleMessage.getInstance().get("PreferencePane.General.Loglevel"),
+				category,
+				LocaleMessage.getInstance().get("PreferencePane.General.Loglevel.Description"));
 
 		addPropertyPreference(PathPrefs.numCommandThreadsProperty(), Integer.class,
-				"Number of parallel threads",
+				LocaleMessage.getInstance().get("PreferencePane.General.NumberOfThreads"),
 				category,
 				"Set limit on number of processors to use for parallelization."
 						+ "\nThis should be > 0 and <= the available processors on the computer."
@@ -216,36 +215,34 @@ public class PreferencePane {
 						+ "\nIt's usually fine to use the default, but it may help to decrease it if you encounter out-of-memory errors.");
 
 		addPropertyPreference(PathPrefs.imageTypeSettingProperty(), ImageTypeSetting.class,
-				"Set image type",
+				LocaleMessage.getInstance().get("PreferencePane.General.SetImageType"),
 				category,
-				"Automatically estimate & set the image type on first opening (e.g. H&E, H-DAB, fluorescence), prompt or leave unset." +
-						"\nEstimating can be handy, but be aware it might not always be correct - and you should always check!" + 
-						"\nThe image type influences some available commands, e.g. how stains are separated for display or cell detections.");
+				LocaleMessage.getInstance().get("PreferencePane.General.SetImageType.Description"));
 
 		addPropertyPreference(CommandFinderTools.commandBarDisplayProperty(), CommandBarDisplay.class,
-				"Command bar display mode",
+				LocaleMessage.getInstance().get("PreferencePane.General.CommandBarDisplayMode"),
 				category,
-				"Mode used to display command finder text field on top of the viewer");
+				LocaleMessage.getInstance().get("PreferencePane.General.CommandBarDisplayMode.Description"));
 		
 		addPropertyPreference(PathPrefs.showExperimentalOptionsProperty(), Boolean.class,
-				"Show experimental menu items",
+				LocaleMessage.getInstance().get("PreferencePane.General.ShowExperimentalMenuItem"),
 				category,
-				"Include experimental commands within the menus - these are likely to be especially buggy and incomplete, but may occasionally be useful");
+				LocaleMessage.getInstance().get("PreferencePane.General.ShowExperimentalMenuItem.Description"));
 
 		addPropertyPreference(PathPrefs.showTMAOptionsProperty(), Boolean.class,
-				"Show TMA menu",
+				LocaleMessage.getInstance().get("PreferencePane.General.ShowTMAMenu"),
 				category,
-				"Include menu items related to Tissue Microarrays");
+				LocaleMessage.getInstance().get("PreferencePane.General.ShowTMAMenu.Description"));
 		
 		addPropertyPreference(PathPrefs.showLegacyOptionsProperty(), Boolean.class,
-				"Show legacy menu items",
+				LocaleMessage.getInstance().get("PreferencePane.General.ShowLegacyMenuItems"),
 				category,
-				"Include menu items related to legacy commands (no longer intended for use)");
+				LocaleMessage.getInstance().get("PreferencePane.General.ShowLegacyMenuItems.Description"));
 
 		addPropertyPreference(PathPrefs.detectionTreeDisplayModeProperty(), DetectionTreeDisplayModes.class,
-				"Hierarchy detection display",
-				"General",
-				"Choose how to display detections in the hierarchy tree view - choose 'None' for the best performance");
+				LocaleMessage.getInstance().get("PreferencePane.General.HierarchyDetectionDisplay"),
+				category,
+				LocaleMessage.getInstance().get("PreferencePane.General.HierarchyDetectionDisplay.Description"));
 	}
 	
 	
@@ -253,7 +250,7 @@ public class PreferencePane {
 		/*
 		 * Locale
 		 */
-		String category = "Locale";
+		String category = LocaleMessage.getInstance().get("PreferencePane.Locale");
 		var localeList = FXCollections.observableArrayList(
 				Arrays.stream(Locale.getAvailableLocales())
 				.filter(l -> !l.getLanguage().isBlank())
@@ -264,31 +261,23 @@ public class PreferencePane {
 		// Would like to use a searchable combo box,
 		// but https://github.com/controlsfx/controlsfx/issues/1413 is problematic
 		var localeSearchable = false;
+//		logger.info("add locale(default):"+ PathPrefs.defaultLocaleProperty().get().toString());
 		addChoicePropertyPreference(PathPrefs.defaultLocaleProperty(), localeList, Locale.class,
-				"Main default locale",
+				LocaleMessage.getInstance().get("PreferencePane.Locale.MainDefaultLocale"),
 				category,
-				"Global default locale setting; changing this can update both display and format locales.\n"
-						+ "It is *strongly* recommended to use English (United States) for consistent formatting, especially of \n"
-						+ "decimal numbers (using . as the decimal separator).\n\n"
-						+ "You can reset the locale by double-clicking on the dropdown menu.",
+				LocaleMessage.getInstance().get("PreferencePane.Locale.MainDefaultLocale.Description"),
 				localeSearchable);
 
 		addChoicePropertyPreference(PathPrefs.defaultLocaleDisplayProperty(), localeList, Locale.class,
-				"Display locale",
+				LocaleMessage.getInstance().get("PreferencePane.Locale.DisplayLocale"),
 				category,
-				"Locale used for display messages\n"
-						+ "It is *strongly* recommended to use English (United States) for consistent formatting, especially of \n"
-						+ "decimal numbers (using . as the decimal separator).\n\n"
-						+ "You can reset the locale by double-clicking on the dropdown menu.",
+				LocaleMessage.getInstance().get("PreferencePane.Locale.DisplayLocale.Description"),
 				localeSearchable);
 		
 		addChoicePropertyPreference(PathPrefs.defaultLocaleFormatProperty(), localeList, Locale.class,
-				"Format locale",
+				LocaleMessage.getInstance().get("PreferencePane.Locale.FormatLocale"),
 				category,
-				"Locale used for formatting dates, numbers etc.\n"
-						+ "It is *strongly* recommended to use English (United States) for consistent formatting, especially of \n"
-						+ "decimal numbers (using . as the decimal separator).\n\n"
-						+ "You can reset the locale by double-clicking on the dropdown menu.",
+				LocaleMessage.getInstance().get("PreferencePane.Locale.FormatLocale.Description"),
 				localeSearchable);
 	}
 	
@@ -296,157 +285,181 @@ public class PreferencePane {
 		/*
 		 * Input/output
 		 */
-		String category = "Input/Output";
+		String category = LocaleMessage.getInstance().get("PreferencePane.IO");
 		
 		addPropertyPreference(PathPrefs.minPyramidDimensionProperty(), Integer.class,
-				"Minimize image dimension for pyramidalizing",
+				LocaleMessage.getInstance().get("PreferencePane.IO.MinimizeImageDimensionForPyramidalizing"),
 				category,
-				"Allow an image pyramid to be calculated for a single-resolution image if either the width or height is greater than this size");
+				LocaleMessage.getInstance().get("PreferencePane.IO.MinimizeImageDimensionForPyramidalizing.Description"));
 
 		
 		addPropertyPreference(PathPrefs.tmaExportDownsampleProperty(), Double.class,
-			"TMA export downsample factor",
+			LocaleMessage.getInstance().get("PreferencePane.IO.TMAExportDownsampleFactor"),
 			category,
-			"Amount to downsample TMA core images when exporting; higher downsample values give smaller image, choosing 1 exports cores at full-resolution (which may be slow)");
+			LocaleMessage.getInstance().get("PreferencePane.IO.TMAExportDownsampleFactor.Description"));
 	}
 
 	private void addCategoryViewer() {
 		/*
 		 * Viewer
 		 */
-		String category = "Viewer";
+		String category = LocaleMessage.getInstance().get("PreferencePane.Viewer");
 		
 		addColorPropertyPreference(PathPrefs.viewerBackgroundColorProperty(),
-				"Viewer background color",
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.BackgroundColor"),
 				category,
-				"Set the color to show behind any image in the viewer (i.e. beyond the image bounds)");
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.BackgroundColor.Description"));
 		
 		addPropertyPreference(PathPrefs.alwaysPaintSelectedObjectsProperty(), Boolean.class,
-				"Always paint selected objects", category, 
-				"Always paint selected objects, even if the overlay opacity is set to 0");
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.AlwaysPaintSelectedObjects"),
+				category,
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.AlwaysPaintSelectedObjects.Description"));
 		
 		addPropertyPreference(PathPrefs.keepDisplaySettingsProperty(), Boolean.class,
-				"Keep display settings where possible", category, 
-				"Keep display settings (channel colors, brightness/contrast) when opening similar images");
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.KeepDisplaySettingsWherePossible"),
+				category,
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.KeepDisplaySettingsWherePossible.Description"));
 		
 		addPropertyPreference(PathPrefs.viewerInterpolateBilinearProperty(), Boolean.class,
-				"Use bilinear interpolation", category, 
-				"Use bilinear interpolation for displaying image in the viewer (default is nearest-neighbor)");
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.UseBilinearInterpolation"),
+				category,
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.UseBilinearInterpolation.Description"));
 		
 		addPropertyPreference(PathPrefs.autoBrightnessContrastSaturationPercentProperty(), Double.class,
-				"Auto Brightness/Contrast saturation %", category, 
-				"Set % bright and % dark pixels that should be saturated when applying 'Auto' brightness/contrast settings");
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.AutoContrastSaturation"),
+				category,
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.AutoContrastSaturation.Description"));
 		
 //		addPropertyPreference(PathPrefs.viewerGammaProperty(), Double.class,
 //				"Gamma value (display only)", category, 
 //				"Set the gamma value applied to the image in the viewer for display - recommended to leave at default value of 1");
 		
 		addPropertyPreference(PathPrefs.invertZSliderProperty(), Boolean.class,
-				"Invert z-position slider",
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.InvertZSlider"),
 				category,
-				"Invert the vertical slider used to scroll between z-slices (useful for anyone for whom the default orientation seems counterintuitive)");
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.InvertZSlider.Description"));
 		
 		addPropertyPreference(PathPrefs.scrollSpeedProperty(), Integer.class,
-				"Scroll speed %", category, 
-				"Adjust the scrolling speed - 100% is 'normal', while lower values lead to slower scrolling");
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.ScrollSpeed"),
+				category,
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.ScrollSpeed.Description"));
 		
 		addPropertyPreference(PathPrefs.navigationSpeedProperty(), Integer.class,
-				"Navigation speed %", category, 
-				"Adjust the navigation speed - 100% is 'normal', while lower values lead to slower navigation");
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.NavigationSpeed"),
+				category,
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.NavigationSpeed.Description"));
 		
 		addPropertyPreference(PathPrefs.navigationAccelerationProperty(), Boolean.class,
-				"Navigation acceleration effects", category, 
-				"Apply acceleration/deceleration effects when holding and releasing a navigation key");
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.NavigationAccelerationEffects"),
+				category,
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.NavigationAccelerationEffects.Description"));
 		
 		addPropertyPreference(PathPrefs.skipMissingCoresProperty(), Boolean.class,
-				"Skip missing TMA cores", category, 
-				"Jumps over missing TMA cores when navigating TMA grids using the arrow keys.");
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.SkipMissingTMACores"),
+				category,
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.SkipMissingTMACores.Description"));
 		
 		addPropertyPreference(PathPrefs.useScrollGesturesProperty(), Boolean.class,
-				"Use scroll touch gestures",
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.UseScrollTouchGestures"),
 				category,
-				"Use scroll gestures with touchscreens or touchpads to navigate the slide");
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.UseScrollTouchGestures.Description"));
 
 		addPropertyPreference(PathPrefs.invertScrollingProperty(), Boolean.class,
-				"Invert scrolling",
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.InvertScrolling"),
 				category,
-				"Invert the effect of scrolling - may counteract system settings that don't play nicely with QuPath");
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.InvertScrolling.Description"));
 
 		addPropertyPreference(PathPrefs.useZoomGesturesProperty(), Boolean.class,
-				"Use zoom touch gestures",
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.UseZoomTouchGestures"),
 				category,
-				"Use 'pinch-to-zoom' gestures with touchscreens or touchpads");
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.UseZoomTouchGestures.Description"));
 
 		addPropertyPreference(PathPrefs.useRotateGesturesProperty(), Boolean.class,
-				"Use rotate touch gestures",
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.UseRotateTouchGestures"),
 				category,
-				"Use rotation gestures with touchscreens or touchpads to navigate the slide");
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.UseRotateTouchGestures.Description"));
 		
 		addPropertyPreference(PathPrefs.enableFreehandToolsProperty(), Boolean.class,
-				"Enable freehand mode for polygon & polyline tools",
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.EnableFreehandModeANDPolylineTools"),
 				category,
-				"When starting to draw a polygon/polyline by clicking & dragging, optionally end ROI by releasing mouse button (rather than double-clicking)");
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.EnableFreehandModeANDPolylineTools.Description"));
 		
 		addPropertyPreference(PathPrefs.doubleClickToZoomProperty(), Boolean.class,
-				"Use double-click to zoom",
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.UseDoubleClickToZoom"),
 				category,
-				"Zoom in when double-clicking on image (if not inside an object) with move tool; zoom out if Alt or Ctrl/Cmd is held down");
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.UseDoubleClickToZoom.Description"));
 
-		addPropertyPreference(PathPrefs.scalebarFontSizeProperty(),
-				FontSize.class,
-				"Scalebar font size",
+		addPropertyPreference(PathPrefs.scalebarFontSizeProperty(), FontSize.class,
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.ScalebarFontSize"),
 				category,
-				"Adjust font size for scalebar");
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.ScalebarFontSize.Description"));
 		
-		addPropertyPreference(PathPrefs.scalebarFontWeightProperty(),
-				FontWeight.class,
-				"Scalebar font weight",
+		addPropertyPreference(PathPrefs.scalebarFontWeightProperty(), FontWeight.class,
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.ScalebarFontWeight"),
 				category,
-				"Adjust font weight for the scalebar");
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.ScalebarFontWeight.Description"));
 
-		addPropertyPreference(PathPrefs.scalebarLineWidthProperty(),
-				Double.class,
-				"Scalebar thickness",
+		addPropertyPreference(PathPrefs.scalebarLineWidthProperty(), Double.class,
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.ScalebarThickness"),
 				category,
-				"Adjust line thickness for the scalebar");
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.ScalebarThickness.Description"));
 
-		addPropertyPreference(PathPrefs.locationFontSizeProperty(),
-				FontSize.class,
-				"Location text font size",
+		addPropertyPreference(PathPrefs.scalebarLocationProperty(), LabelLocation.class,
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.ScalebarLocation"),
 				category,
-				"Adjust font size for location text");
-		
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.ScalebarLocation.Description"));
+		addPropertyPreference(PathPrefs.locationFontSizeProperty(), FontSize.class,
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.LocationTextFontSize"),
+				category,
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.LocationTextFontSize.Description"));
+
 		addPropertyPreference(PathPrefs.useCalibratedLocationStringProperty(), Boolean.class,
-				"Use calibrated location text",
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.UseCalibratedLocationText"),
 				category,
-				"Show pixel locations on the viewer in " + GeneralTools.micrometerSymbol() + " where possible");
-		
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.UseCalibratedLocationText.Description1")
+						+ GeneralTools.micrometerSymbol()
+						+ LocaleMessage.getInstance().get("PreferencePane.Viewer.UseCalibratedLocationText.Description2"));
+		addPropertyPreference(PathPrefs.locInfoLocationProperty(), LabelLocation.class,
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.LocInfoLocation"),
+				category,
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.LocInfoLocation.Description"));
+		addPropertyPreference(PathPrefs.overviewLocationProperty(), LabelLocation.class,
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.OverviewLocation"),
+				category,
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.OverviewLocation.Description"));
+
 		
 		addPropertyPreference(PathPrefs.gridSpacingXProperty(), Double.class,
-				"Grid spacing X",
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.GridSpacingX"),
 				category,
-				"Horizontal grid spacing when displaying a grid on the viewer");
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.GridSpacingX.Description"));
 
 		addPropertyPreference(PathPrefs.gridSpacingYProperty(), Double.class,
-				"Grid spacing Y",
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.GridSpacingY"),
 				category,
-				"Vertical grid spacing when displaying a grid on the viewer");
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.GridSpacingY.Description"));
 
 		addPropertyPreference(PathPrefs.gridScaleMicronsProperty(), Boolean.class,
-				"Grid spacing in " + GeneralTools.micrometerSymbol(),
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.GridSpacingIn")
+						+ " "
+						+ GeneralTools.micrometerSymbol(),
 				category,
-				"Use " + GeneralTools.micrometerSymbol() + " units where possible when defining grid spacing");
+				LocaleMessage.getInstance().get("PreferencePane.Viewer.GridSpacingIn.Description1")
+						+ " "
+						+ GeneralTools.micrometerSymbol()
+						+ " "
+						+ LocaleMessage.getInstance().get("PreferencePane.Viewer.GridSpacingIn.Description2"));
 	}
 
 	private void addCategoryExtensions() {
 		/*
 		 * Extensions
 		 */
-		String category = "Extensions";
+		String category = LocaleMessage.getInstance().get("PreferencePane.Extensions");
 		addDirectoryPropertyPreference(PathPrefs.userPathProperty(),
-				"QuPath user directory",
+				LocaleMessage.getInstance().get("PreferencePane.Extensions.QuPathUserDirectory"),
 				category,
-				"Set the QuPath user directory - after setting you should restart QuPath");
+				LocaleMessage.getInstance().get("PreferencePane.Extensions.QuPathUserDirectory.Description"));
 
 	}
 	
@@ -454,16 +467,22 @@ public class PreferencePane {
 		/*
 		 * Drawing tools
 		 */
-		String category = "Measurements";
+		String category = LocaleMessage.getInstance().get("PreferencePane.Measurements");
 		addPropertyPreference(PathPrefs.showMeasurementTableThumbnailsProperty(), Boolean.class,
-				"Include thumbnail column in measurement tables",
+				LocaleMessage.getInstance().get("PreferencePane.Measurements.IncludeThumbnailColumnInMeasurementTables"),
 				category,
-				"Show thumbnail images by default for each object in a measurements table");
+				LocaleMessage.getInstance().get("PreferencePane.Measurements.IncludeThumbnailColumnInMeasurementTables.Description"));
 		
 		addPropertyPreference(PathPrefs.showMeasurementTableObjectIDsProperty(), Boolean.class,
-				"Include object ID column in measurement tables",
+				LocaleMessage.getInstance().get("PreferencePane.Measurements.IncludeObjectIDColumnInMeasurementTables"),
 				category,
-				"Show object ID column by default in a measurements table");
+				LocaleMessage.getInstance().get("PreferencePane.Measurements.IncludeObjectIDColumnInMeasurementTables.Description"));
+
+		addPropertyPreference(PathPrefs.tableDelimiterProperty(), Delimiter.class,
+				LocaleMessage.getInstance().get("PreferencePane.Measurements.tableDelimiter"),
+				category,
+				LocaleMessage.getInstance().get("PreferencePane.Measurements.tableDelimiter.Description"));
+
 
 	}
 	
@@ -471,11 +490,11 @@ public class PreferencePane {
 		/*
 		 * Automation
 		 */
-		String category = "Automation";
+		String category = LocaleMessage.getInstance().get("PreferencePane.Automation");
 		addDirectoryPropertyPreference(PathPrefs.scriptsPathProperty(),
-				"Script directory",
+				LocaleMessage.getInstance().get("PreferencePane.Automation.ScriptDirectory"),
 				category,
-				"Set the script directory");
+				LocaleMessage.getInstance().get("PreferencePane.Automation.ScriptDirectory.Description"));
 
 	}
 
@@ -483,47 +502,46 @@ public class PreferencePane {
 		/*
 		 * Drawing tools
 		 */
-		String category = "Drawing tools";
+		String category = LocaleMessage.getInstance().get("PreferencePane.DrawingTools");
 		addPropertyPreference(PathPrefs.returnToMoveModeProperty(), Boolean.class,
-				"Return to Move Tool automatically",
+				LocaleMessage.getInstance().get("PreferencePane.DrawingTools.ReturnToMoveToolAutomatically"),
 				category,
-				"Return selected tool to 'Move' automatically after drawing a ROI (applies to all drawing tools except brush & wand)");
+				LocaleMessage.getInstance().get("PreferencePane.DrawingTools.ReturnToMoveToolAutomatically.Description"));
 		
 		addPropertyPreference(PathPrefs.usePixelSnappingProperty(), Boolean.class,
-				"Use pixel snapping",
+				LocaleMessage.getInstance().get("PreferencePane.DrawingTools.UsePixelSnapping"),
 				category,
-				"Automatically snap pixels to integer coordinates when using drawing tools (some tools, e.g. line, points may override this)");
+				LocaleMessage.getInstance().get("PreferencePane.DrawingTools.UsePixelSnapping.Description"));
 		
 		addPropertyPreference(PathPrefs.clipROIsForHierarchyProperty(), Boolean.class,
-				"Clip ROIs to hierarchy",
+				LocaleMessage.getInstance().get("PreferencePane.DrawingTools.ClipROIsToHierarchy"),
 				category,
-				"Automatically clip ROIs so that they don't extend beyond a parent annotation, or encroach on a child annotation - this helps keep the hierarchy easier to interpret, without overlaps. " + 
-				"The setting can be overridden by pressing the 'shift' key");
+				LocaleMessage.getInstance().get("PreferencePane.DrawingTools.ClipROIsToHierarchy.Description"));
 
 		addPropertyPreference(PathPrefs.brushDiameterProperty(), Integer.class,
-				"Brush diameter",
+				LocaleMessage.getInstance().get("PreferencePane.DrawingTools.BrushDiameter"),
 				category,
-				"Set the default brush diameter");
+				LocaleMessage.getInstance().get("PreferencePane.DrawingTools.BrushDiameter.Description"));
 		
 		addPropertyPreference(PathPrefs.useTileBrushProperty(), Boolean.class,
-				"Use tile brush",
+				LocaleMessage.getInstance().get("PreferencePane.DrawingTools.UseTileBrush"),
 				category,
-				"Adapt brush tool to select tiles, where available");
+				LocaleMessage.getInstance().get("PreferencePane.DrawingTools.UseTileBrush.Description"));
 
 		addPropertyPreference(PathPrefs.brushScaleByMagProperty(), Boolean.class,
-				"Scale brush by magnification",
+				LocaleMessage.getInstance().get("PreferencePane.DrawingTools.ScaleBrushByMagnification"),
 				category,
-				"Adapt brush size by magnification, so higher magnification gives a finer brush");
+				LocaleMessage.getInstance().get("PreferencePane.DrawingTools.ScaleBrushByMagnification.Description"));
 		
 		addPropertyPreference(PathPrefs.multipointToolProperty(), Boolean.class,
-				"Use multipoint tool",
+				LocaleMessage.getInstance().get("PreferencePane.DrawingTools.UseMultipointTool"),
 				category,
-				"With the Counting tool, add points to an existing object if possible");
+				LocaleMessage.getInstance().get("PreferencePane.DrawingTools.UseMultipointTool.Description"));
 
 		addPropertyPreference(PathPrefs.pointRadiusProperty(), Integer.class,
-				"Point radius",
+				LocaleMessage.getInstance().get("PreferencePane.DrawingTools.PointRadius"),
 				category,
-				"Set the default point radius");
+				LocaleMessage.getInstance().get("PreferencePane.DrawingTools.PointRadius.Description"));
 	}
 	
 	private void addCategoryObjects() {

@@ -110,8 +110,11 @@ public class QuPathViewerPlus extends QuPathViewer {
 			overview.imageDataChanged(this, null, imageData);
 		Node overviewNode = overview.getNode();
 		basePane.getChildren().add(overviewNode);
-		AnchorPane.setTopAnchor(overviewNode, (double)padding);
-		AnchorPane.setRightAnchor(overviewNode, (double)padding);
+		// HYS
+		updateLabelLocation(PathPrefs.overviewLocationProperty().get(), overviewNode);
+		PathPrefs.overviewLocationProperty().addListener((v, o, n)->{
+			updateLabelLocation(n, overviewNode);
+		});
 
 		// Add the location label
 		labelLocation.setTextFill(Color.WHITE);
@@ -127,15 +130,22 @@ public class QuPathViewerPlus extends QuPathViewer {
 		panelLocation.setCenter(labelLocation);
 		panelLocation.setPadding(new Insets(5));
 		basePane.getChildren().add(panelLocation);
-		AnchorPane.setBottomAnchor(panelLocation, (double)padding);
-		AnchorPane.setRightAnchor(panelLocation, (double)padding);
-		
+		// HYS
+		updateLabelLocation(PathPrefs.locInfoLocationProperty().get(), panelLocation);
+		PathPrefs.locInfoLocationProperty().addListener((v, o, n)->{
+			updateLabelLocation(n, panelLocation);
+		});
+
 		// Add the scalebar label
 //		Node scalebarNode = PanelToolsFX.createSwingNode(scalebar);
 		Node scalebarNode = scalebar.getNode();
 		basePane.getChildren().add(scalebarNode);
-		AnchorPane.setBottomAnchor(scalebarNode, (double)padding);
-		AnchorPane.setLeftAnchor(scalebarNode, (double)padding);
+		// HYS 添加位置改变响应
+		updateLabelLocation(PathPrefs.scalebarLocationProperty().get(), scalebarNode);
+		PathPrefs.scalebarLocationProperty().addListener((v, o, n)->{
+			updateLabelLocation(n, scalebarNode);
+		});
+
 		
 		// Add the z-slider
 		sliderZ.valueProperty().bindBidirectional(zPositionProperty());
@@ -306,6 +316,34 @@ public class QuPathViewerPlus extends QuPathViewer {
 		}
 	}
 
+	/**
+	 * 更新viewer上label的位置 overview, scalebar, locationinfo
+	 * @param newLoc
+	 * @param node
+	 */
+	void updateLabelLocation(PathPrefs.LabelLocation newLoc, Node node) {
+		AnchorPane.clearConstraints(node);
+		switch (newLoc)
+		{
+			case TOP_LEFT:
+				AnchorPane.setTopAnchor(node, (double)padding);
+				AnchorPane.setLeftAnchor(node, (double)padding);
+				break;
+			case TOP_RIGHT:
+				AnchorPane.setTopAnchor(node, (double)padding);
+				AnchorPane.setRightAnchor(node, (double)padding);
+				break;
+			case BOTTOM_RIGHT:
+				AnchorPane.setBottomAnchor(node, (double)padding);
+				AnchorPane.setRightAnchor(node, (double)padding);
+				break;
+			case BOTTOM_LEFT:
+			default:
+				AnchorPane.setBottomAnchor(node, (double)padding);
+				AnchorPane.setLeftAnchor(node, (double)padding);
+		}
+
+	}
 	
 	private boolean useCalibratedLocationString() {
 		return useCalibratedLocationString.get();

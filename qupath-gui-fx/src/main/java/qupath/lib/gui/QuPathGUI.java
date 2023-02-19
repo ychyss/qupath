@@ -166,6 +166,7 @@ import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import jfxtras.scene.menu.CirclePopupMenu;
+import qupath.lib.LocaleMessage;
 import qupath.lib.common.GeneralTools;
 import qupath.lib.common.ThreadTools;
 import qupath.lib.common.Timeit;
@@ -890,7 +891,7 @@ public class QuPathGUI {
 		timeit.checkpoint("Creating menus");
 
 		menuBar = new MenuBar(
-				Arrays.asList("File", "Edit", "Tools", "View", "Objects", "TMA", "Measure", "Automate", "Analyze", "Classify", "Extensions", "Help")
+				Arrays.asList("File","Edit", "View", "Objects", "TMA", "Measure", "Automate", "Analyze", "Classify", "Extensions", "Help")
 				.stream().map(Menu::new).toArray(Menu[]::new)
 				);
 		
@@ -1017,7 +1018,7 @@ public class QuPathGUI {
 		Menu menuAutomate = getMenu("Automate", false);
 		ScriptEditor editor = getScriptEditor();
 		var sharedScriptMenuLoader = new ScriptMenuLoader("Shared scripts...", PathPrefs.scriptsPathProperty(), editor);
-		
+
 		StringBinding projectScriptsPath = Bindings.createStringBinding(() -> {
 			var project = getProject();
 			File dir = project == null ? null : Projects.getBaseDirectory(project);
@@ -1027,7 +1028,7 @@ public class QuPathGUI {
 		projectScriptMenuLoader.getMenu().visibleProperty().bind(
 				projectProperty.isNotNull().and(initializingMenus.not())
 				);
-		
+
 		StringBinding userScriptsPath = Bindings.createStringBinding(() -> {
 			String userPath = PathPrefs.getUserPath();
 			File dirScripts = userPath == null ? null : new File(userPath, "scripts");

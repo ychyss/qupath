@@ -106,7 +106,7 @@ public class MeasurementExportCommand implements Runnable {
 	private Project<BufferedImage> project;
 	private ListSelectionView<ProjectImageEntry<BufferedImage>> listSelectionView;
 	private List<ProjectImageEntry<BufferedImage>> previousImages = new ArrayList<>();
-	private String defSep = PathPrefs.tableDelimiterProperty().get();
+	private String defSep = PathPrefs.tableDelimiterProperty().get().get();
 	private ExecutorService executor = Executors.newSingleThreadExecutor(ThreadTools.createThreadFactory("columnName-loader", true));
 	private Class<? extends PathObject> type = PathRootObject.class;
 	

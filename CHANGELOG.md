@@ -1,3 +1,10 @@
+## 修改内容
+1. 添加了标尺条,缩略图，鼠标信息的viewer上位置调整配置（Viewer->Scalebar Location/Mouse Info Location/Overview Location）
+2. 添加了表格导出分隔符的配置信息（Measurements->Table Export Delimiter）
+3. 修改了小工具的默认颜色
+4. 
+
+
 ## Version 0.4.3-SNAPSHOT
 
 This is a work-in-progress containing minor changes from v0.4.2.

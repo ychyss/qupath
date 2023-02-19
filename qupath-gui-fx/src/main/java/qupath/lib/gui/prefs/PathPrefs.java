@@ -69,6 +69,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
 import javafx.scene.text.FontWeight;
+import qupath.lib.LocaleMessage;
 import qupath.lib.common.ColorTools;
 import qupath.lib.common.GeneralTools;
 import qupath.lib.common.ThreadTools;
@@ -290,13 +291,13 @@ public class PathPrefs {
 		public String toString() {
 			switch(this) {
 			case EXTENSIONS_ONLY:
-				return "Extensions only";
+				return LocaleMessage.getInstance().get("AutoUpdateType.EXTENSIONS_ONLY");
 			case NONE:
-				return "None";
+				return LocaleMessage.getInstance().get("AutoUpdateType.NONE");
 			case QUPATH_AND_EXTENSIONS:
-				return "QuPath + extensions";
+				return LocaleMessage.getInstance().get("AutoUpdateType.QUPATH_AND_EXTENSIONS");
 			case QUPATH_ONLY:
-				return "QuPath only";
+				return LocaleMessage.getInstance().get("AutoUpdateType.QUPATH_ONLY");
 			default:
 				return super.toString();
 			}
@@ -1091,7 +1092,10 @@ public class PathPrefs {
 		
 	}
 		
-	private static ObjectProperty<ImageTypeSetting> imageTypeSettingProperty = createPersistentPreference("imageTypeSetting", ImageTypeSetting.PROMPT, ImageTypeSetting.class);
+	private static ObjectProperty<ImageTypeSetting> imageTypeSettingProperty = createPersistentPreference(
+			"imageTypeSetting",
+			ImageTypeSetting.PROMPT,
+			ImageTypeSetting.class);
 	
 	/**
 	 * Specify how setting the image type should be handled for images when they are opened for the first time.
@@ -1114,14 +1118,47 @@ public class PathPrefs {
 		return paintSelectedBounds;
 	}
 	
-	
-	private static StringProperty tableDelimiter = createPersistentPreference("tableDelimiter", "\t");
+
+	public static enum Delimiter {
+		HOMRIZENTAL_TABLE_DeLIMITER, COMMA, SEMICOLON;
+
+		public String get(){
+			switch (this){
+				case COMMA:
+					return ",";
+				case SEMICOLON:
+					return ";";
+				case HOMRIZENTAL_TABLE_DeLIMITER:
+				default:
+					return "\t";
+			}
+		}
+
+		@Override
+		public String toString() {
+			switch(this) {
+				case HOMRIZENTAL_TABLE_DeLIMITER:
+					return "\\t";
+				case COMMA:
+					return "Comma";
+				case SEMICOLON:
+					return "Semicolon";
+				default:
+					return "Unknown";
+			}
+		}
+	}
+
+	private static ObjectProperty<Delimiter> tableDelimiter = createPersistentPreference(
+			"tableDelimiter",
+			Delimiter.HOMRIZENTAL_TABLE_DeLIMITER,
+			Delimiter.class);
 
 	/**
 	 * Delimiter to use when exporting tables. Default is {@code "\t"}. Commas should be used with caution because of potential localization trouble.
 	 * @return
 	 */
-	public static StringProperty tableDelimiterProperty() {
+	public static ObjectProperty<Delimiter> tableDelimiterProperty() {
 		return tableDelimiter;
 	}
 	
@@ -1334,9 +1371,9 @@ public class PathPrefs {
 	}
 
 	
-	private static IntegerProperty colorDefaultObjects = createPersistentPreference("colorDefaultAnnotations", ColorTools.packRGB(255, 0, 0));
+	private static IntegerProperty colorDefaultObjects = createPersistentPreference("colorDefaultAnnotations", ColorTools.packRGB(255, 255, 0));
 		
-	private static IntegerProperty colorSelectedObject = createPersistentPreference("colorSelectedObject", ColorTools.packRGB(255, 255, 0));
+	private static IntegerProperty colorSelectedObject = createPersistentPreference("colorSelectedObject", ColorTools.packRGB(0, 255, 255));
 	private static IntegerProperty colorTMA = createPersistentPreference("colorTMA", ColorTools.packRGB(20, 20, 180));
 	private static IntegerProperty colorTMAMissing = createPersistentPreference("colorTMAMissing", ColorTools.packARGB(50, 20, 20, 180));
 	private static IntegerProperty colorTile = createPersistentPreference("colorTile", ColorTools.packRGB(80, 80, 80));
@@ -1562,8 +1599,60 @@ public class PathPrefs {
 	public static ObjectProperty<FontWeight> scalebarFontWeightProperty() {
 		return scalebarFontWeight;
 	}
-	
-	
+
+
+	/**
+	 * viewer上不同label的位置标志
+	 */
+	public static enum LabelLocation {
+		BOTTOM_LEFT, BOTTOM_RIGHT, TOP_LEFT, TOP_RIGHT;
+		@Override
+		public String toString() {
+			switch(this) {
+				case BOTTOM_LEFT:
+					return "Bottom Left";
+				case BOTTOM_RIGHT:
+					return "Bottom Right";
+				case TOP_LEFT:
+					return "Top Left";
+				case TOP_RIGHT:
+					return "Top Right";
+				default:
+					return "Unknown";
+			}
+		}
+	}
+
+
+	private static ObjectProperty<LabelLocation> scalebarLocation = PathPrefs.createPersistentPreference(
+			"scalebarLocation", LabelLocation.BOTTOM_LEFT, LabelLocation.class);
+
+	/**
+	 * 标尺条位置
+	 * @return
+	 */
+	public static ObjectProperty<LabelLocation> scalebarLocationProperty(){return scalebarLocation;}
+
+
+	private static ObjectProperty<LabelLocation> overviewLocation = PathPrefs.createPersistentPreference(
+			"overviewLocation", LabelLocation.TOP_RIGHT, LabelLocation.class);
+
+	/**
+	 * 缩略图位置
+	 * @return
+	 */
+	public static ObjectProperty<LabelLocation> overviewLocationProperty(){return overviewLocation;}
+
+
+	private static ObjectProperty<LabelLocation> locInfoLocation = PathPrefs.createPersistentPreference(
+			"locInfoLocation", LabelLocation.BOTTOM_RIGHT, LabelLocation.class);
+
+	/**
+	 * 鼠标信息位置
+	 * @return
+	 */
+	public static ObjectProperty<LabelLocation> locInfoLocationProperty(){return locInfoLocation;}
+
 	private static DoubleProperty scalebarLineWidth = PathPrefs.createPersistentPreference(
 			"scalebarLineWidth", 3.0);
 
@@ -1611,9 +1700,6 @@ public class PathPrefs {
 		return pointRadiusProperty;
 	}
 
-	
-	
-	
 	/**
 	 * Create a persistent property, which is one that will be saved to/reloaded from the user preferences.
 	 * 
@@ -1643,8 +1729,6 @@ public class PathPrefs {
 		return new SimpleBooleanProperty(null, name, defaultValue);
 	}
 	
-	
-	
 	/**
 	 * Create a persistent property, which is one that will be saved to/reloaded from the user preferences.
 	 * 
@@ -1673,8 +1757,6 @@ public class PathPrefs {
 	static IntegerProperty createTransientPreference(final String name, final int defaultValue) {
 		return new SimpleIntegerProperty(null, name, defaultValue);
 	}
-	
-	
 	
 	/**
 	 * Create a persistent property, which is one that will be saved to/reloaded from the user preferences.

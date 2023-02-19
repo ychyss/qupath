@@ -43,7 +43,7 @@ import qupath.lib.gui.panes.PreferencePane;
 import qupath.lib.gui.prefs.PathPrefs;
 import qupath.lib.gui.tools.MenuTools;
 import qupath.lib.images.writers.ome.OMEPyramidWriterCommand;
-
+import qupath.lib.LocaleMessage;
 /**
  * A QuPath extension that adds options relating to the BioFormatsImageServer to the main QuPath preference pane.
  * 
@@ -75,9 +75,7 @@ public class BioFormatsOptionsExtension implements QuPathExtension {
 		MenuTools.addMenuItems(
 				qupath.getMenu("File>Export images...", true),
 				actionWriter);
-		
-		
-		
+
 		BioFormatsServerOptions options = BioFormatsServerOptions.getInstance();
 		
 		// Create persistent properties
@@ -117,7 +115,7 @@ public class BioFormatsOptionsExtension implements QuPathExtension {
 		useExtensions.addListener((v, o, n) -> fillCollectionWithTokens(n, options.getUseAlwaysExtensions()));
 		skipExtensions.addListener((v, o, n) -> fillCollectionWithTokens(n, options.getSkipAlwaysExtensions()));
 		
-		// Add preferences to QuPath GUI
+		// Add preferences to QuPath GUI 添加到配置面板的配置项
 		PreferencePane prefs = QuPathGUI.getInstance().getPreferencePane();
 		prefs.addPropertyPreference(enableBioformats, Boolean.class, "Enable Bio-Formats", "Bio-Formats", "Allow QuPath to use Bio-Formats for image reading");
 		prefs.addPropertyPreference(filesOnly, Boolean.class, "Local files only", "Bio-Formats", "Limit Bio-Formats to only opening local files, not other URLs.\n"

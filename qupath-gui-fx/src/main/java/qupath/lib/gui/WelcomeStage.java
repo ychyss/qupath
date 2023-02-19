@@ -49,6 +49,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import qupath.lib.LocaleMessage;
 import qupath.lib.common.GeneralTools;
 import qupath.lib.gui.prefs.PathPrefs;
 import qupath.lib.gui.prefs.PathPrefs.AutoUpdateType;
@@ -90,19 +91,19 @@ class WelcomeStage {
 
 		
 		var btnCode = createGlyphButton(
-				"Develop",
+				LocaleMessage.getInstance().get("welcome.button.code"),
 				Glyph.CODE,
 				"https://github.com/qupath/qupath"
 				);
 		
 		var btnDocs = createGlyphButton(
-				"Docs",
+				LocaleMessage.getInstance().get("welcome.button.doc"),
 				Glyph.FILE_TEXT_ALT,
 				"https://qupath.readthedocs.io/en/0.4"
 				);
 		
 		var btnForum = createGlyphButton(
-				"Discuss",
+				LocaleMessage.getInstance().get("welcome.button.discuss"),
 				Glyph.COMMENTS_ALT,
 				"https://forum.image.sc/tag/qupath"
 				);
@@ -116,7 +117,7 @@ class WelcomeStage {
 		imageView.setOpacity(0.9);
 		imageView.setPreserveRatio(true);
 
-		var textTitle = new Text("欢迎使用QuPath!");
+		var textTitle = new Text(LocaleMessage.getInstance().get("welcome.title"));
 		textTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 150%; -fx-fill: -fx-text-base-color;");
 
 		var topPane = new VBox();
@@ -172,19 +173,19 @@ class WelcomeStage {
 		var comboThemes = new ComboBox<>(QuPathStyleManager.availableStylesProperty());
 		comboThemes.getSelectionModel().select(QuPathStyleManager.selectedStyleProperty().get());
 		comboThemes.getSelectionModel().selectedItemProperty().addListener((v, o, n) -> QuPathStyleManager.selectedStyleProperty().set(n));
-		var labelThemes = new Label("Choose Theme:"); // LocaleMessage.getInstance().get("choose.theme")
+		var labelThemes = new Label(LocaleMessage.getInstance().get("welcome.chooseTheme"));
 		labelThemes.setLabelFor(comboThemes);
 		labelThemes.setAlignment(Pos.CENTER_RIGHT);
-		
+
 		var comboUpdates = new ComboBox<AutoUpdateType>();
 		comboUpdates.getItems().setAll(AutoUpdateType.values());
 		comboUpdates.getSelectionModel().select(PathPrefs.autoUpdateCheckProperty().get());
 		comboUpdates.getSelectionModel().selectedItemProperty().addListener((v, o, n) -> PathPrefs.autoUpdateCheckProperty().set(n));
-		var labelUpdates = new Label("Check for updates:");
+		var labelUpdates = new Label(LocaleMessage.getInstance().get("welcome.checkForUpdates"));
 		labelUpdates.setLabelFor(comboUpdates);
 		labelUpdates.setAlignment(Pos.CENTER_RIGHT);
 
-		var cbShowStartup = new CheckBox("Show this on startup");
+		var cbShowStartup = new CheckBox(LocaleMessage.getInstance().get("welcome.showOnStartup"));
 		cbShowStartup.selectedProperty().bindBidirectional(PathPrefs.showStartupMessageProperty());
 		cbShowStartup.setAlignment(Pos.CENTER_RIGHT);
 		
@@ -211,10 +212,11 @@ class WelcomeStage {
 		separator2.setPadding(new Insets(5));
 		paneOptions.add(separator2, 0, row++, GridPane.REMAINING, 1);
 
-		var linkCiting = new Hyperlink("Click here for details");
+		var linkCiting = new Hyperlink(LocaleMessage.getInstance().get("welcome.citeLink"));
 		linkCiting.setOnAction(e -> QuPathGUI.launchBrowserWindow("https://qupath.readthedocs.io/en/0.4/docs/intro/citing.html"));
 		var textCiting = new TextFlow(
-				new Text("Don't forget to cite the latest QuPath paper when you use the software!\n"),
+				new Text(LocaleMessage.getInstance().get("welcome.cite")),
+				new Text("\n"),
 				linkCiting
 				);
 		textCiting.setTextAlignment(TextAlignment.CENTER);
@@ -226,7 +228,7 @@ class WelcomeStage {
 		row++;
 
 		
-		var btnStarted = new Button("Get started!");
+		var btnStarted = new Button(LocaleMessage.getInstance().get("welcome.startUse"));
 //		btnStarted.setPrefHeight(40);
 		btnStarted.setStyle("-fx-font-weight: bold; -fx-font-size: 110%;");
 		btnStarted.setPadding(new Insets(10));
@@ -268,7 +270,7 @@ class WelcomeStage {
 //		stage.setScene(new Scene(pane, Color.TRANSPARENT));
 //		stage.initStyle(StageStyle.UNDECORATED);
 		stage.setScene(new Scene(pane));
-		stage.setTitle("Welcome");
+		stage.setTitle(LocaleMessage.getInstance().get("welcome.dialog.title"));
 		GuiTools.makeDraggableStage(stage);
 		stage.getScene().setOnMouseClicked(e -> {
 			if (e.getClickCount() == 2) {

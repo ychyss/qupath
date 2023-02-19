@@ -89,7 +89,7 @@ abstract class AbstractPathROITool extends AbstractPathTool {
 			logger.warn("Cannot create new annotation - no hierarchy available!");
 			return null;
 		}
-		ROI roi = createNewROI(e, x, y, viewer.getImagePlane());
+		ROI roi = createNewROI(e, x, y, viewer.getImagePlane()); // 调用子类方法
 		if (roi == null)
 			return null;
 		

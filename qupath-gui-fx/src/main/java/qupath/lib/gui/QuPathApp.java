@@ -55,7 +55,7 @@ public class QuPathApp extends Application {
 		Map<String, String> namedParams = params.getNamed();
 //		List<String> unnamedParams = params.getUnnamed();
 		
-		// Create main GUI
+		// 启动主界面
 		boolean quiet = Boolean.valueOf(namedParams.getOrDefault("quiet", null));
 		QuPathGUI qupath = new QuPathGUI(getHostServices(), stage, null, true, quiet);
 		logger.info("Starting QuPath with parameters: " + params.getRaw());
@@ -65,7 +65,7 @@ public class QuPathApp extends Application {
 		String unnamed = params.getUnnamed().isEmpty() ? null : params.getUnnamed().get(0);
 		String projectPath = namedParams.getOrDefault("project", null);
 		String imagePath = namedParams.getOrDefault("image", unnamed);
-		
+
 		if (projectPath != null) {
 			try {
 				var uri = GeneralTools.toURI(projectPath);

@@ -220,7 +220,7 @@ class Menus {
 
 	@ActionMenu("Automate")
 	public class AutomateMenuManager {
-		
+
 		@ActionDescription("Open the script editor.")
 		@ActionMenu("Show script editor")
 		@ActionAccelerator("shortcut+[")
@@ -231,9 +231,9 @@ class Menus {
 				"However, in general the Script Editor is more useful.")
 		@ActionMenu("Script interpreter")
 		public final Action SCRIPT_INTERPRETER = createAction(() -> Commands.showScriptInterpreter(qupath));
-		
+
 		public final Action SEP_0 = ActionTools.createSeparator();
-		
+
 		@ActionDescription("Show a history of the commands applied to the current image. " +
 				"Note that this is not fully exhaustive, because not all commands can be recorded. " +
 				"However, the command history is useful to help automatically generate batch-processing scripts.")
@@ -296,7 +296,7 @@ class Menus {
 	
 	@ActionMenu("Classify")
 	public class ClassifyMenuManager {
-				
+
 		@ActionMenu("Object classification>")
 		public final Action SEP_1 = ActionTools.createSeparator();
 
@@ -440,19 +440,19 @@ class Menus {
 		@ActionMenu("Export objects as GeoJSON")
 		public final Action EXPORT_GEOJSON = qupath.createImageDataAction(imageData -> Commands.runGeoJsonObjectExport(qupath, imageData));
 		
-		public final Action SEP_7 = ActionTools.createSeparator();
+//		public final Action SEP_7 = ActionTools.createSeparator();
 
-		@ActionDescription("Import a TMA map, e.g. a grid containing 'Unique ID' values for each core.")
-		@ActionMenu("TMA data...>Import TMA map")
-		public final Action TMA_IMPORT = qupath.createImageDataAction(imageData -> TMACommands.promptToImportTMAData(imageData));
+//		@ActionDescription("Import a TMA map, e.g. a grid containing 'Unique ID' values for each core.")
+//		@ActionMenu("TMA data...>Import TMA map")
+//		public final Action TMA_IMPORT = qupath.createImageDataAction(imageData -> TMACommands.promptToImportTMAData(imageData));
 
-		@ActionDescription("Export TMA data for the current image, in a format compatible with the 'TMA data viewer'.")
-		@ActionMenu("TMA data...>Export TMA data")
-		public final Action TMA_EXPORT = qupath.createImageDataAction(imageData -> TMACommands.promptToExportTMAData(qupath, imageData));
+//		@ActionDescription("Export TMA data for the current image, in a format compatible with the 'TMA data viewer'.")
+//		@ActionMenu("TMA data...>Export TMA data")
+//		public final Action TMA_EXPORT = qupath.createImageDataAction(imageData -> TMACommands.promptToExportTMAData(qupath, imageData));
 		
-		@ActionDescription("Launch the 'TMA data viewer' to visualize TMA core data that was previously exported.")
-		@ActionMenu("TMA data...>Launch TMA data viewer")
-		public final Action TMA_VIEWER = createAction(() -> Commands.launchTMADataViewer(qupath));
+//		@ActionDescription("Launch the 'TMA data viewer' to visualize TMA core data that was previously exported.")
+//		@ActionMenu("TMA data...>Launch TMA data viewer")
+//		public final Action TMA_VIEWER = createAction(() -> Commands.launchTMADataViewer(qupath));
 
 		public final Action SEP_8 = ActionTools.createSeparator();
 
@@ -1040,42 +1040,42 @@ class Menus {
 		@ActionMenu("")
 		public final Action SEP_1 = ActionTools.createSeparator();
 
-		@ActionDescription("Open the main QuPath documentation website.")
-		@ActionMenu("Documentation (web)")
-		public final Action DOCS = createAction(() -> QuPathGUI.launchBrowserWindow(URL_DOCS));
+//		@ActionDescription("Open the main QuPath documentation website.")
+//		@ActionMenu("Documentation (web)")
+//		public final Action DOCS = createAction(() -> QuPathGUI.launchBrowserWindow(URL_DOCS));
 		
-		@ActionDescription("Open the QuPath demo videos and tutorials.")
-		@ActionMenu("YouTube channel (web)")
-		public final Action DEMOS = createAction(() -> QuPathGUI.launchBrowserWindow(URL_VIDEOS));
+//		@ActionDescription("Open the QuPath demo videos and tutorials.")
+//		@ActionMenu("YouTube channel (web)")
+//		public final Action DEMOS = createAction(() -> QuPathGUI.launchBrowserWindow(URL_VIDEOS));
 
-		@ActionDescription("Check online for an updated QuPath release.")
-		@ActionMenu("Check for updates (web)")
-		public final Action UPDATE = createAction(() -> qupath.checkForUpdate(false));
+//		@ActionDescription("Check online for an updated QuPath release.")
+//		@ActionMenu("Check for updates (web)")
+//		public final Action UPDATE = createAction(() -> qupath.checkForUpdate(false));
 
-		public final Action SEP_2 = ActionTools.createSeparator();
+//		public final Action SEP_2 = ActionTools.createSeparator();
 		
-		@ActionDescription("Please cite the QuPath publication if you use the software! " +
-				"\nThis command opens a web page to show how.")
-		@ActionMenu("Cite QuPath (web)")
-		public final Action CITE = createAction(() -> QuPathGUI.launchBrowserWindow(URL_CITATION));
+//		@ActionDescription("Please cite the QuPath publication if you use the software! " +
+//				"\nThis command opens a web page to show how.")
+//		@ActionMenu("Cite QuPath (web)")
+//		public final Action CITE = createAction(() -> QuPathGUI.launchBrowserWindow(URL_CITATION));
 		
-		@ActionDescription("Report a bug. Please follow the template and do not use this for general questions!")
-		@ActionMenu("Report bug (web)")
-		public final Action BUGS = createAction(() -> QuPathGUI.launchBrowserWindow(URL_BUGS));
+//		@ActionDescription("Report a bug. Please follow the template and do not use this for general questions!")
+//		@ActionMenu("Report bug (web)")
+//		public final Action BUGS = createAction(() -> QuPathGUI.launchBrowserWindow(URL_BUGS));
 		
-		@ActionDescription("Visit the user forum. This is the place to ask questions (and give answers).")
-		@ActionMenu("View user forum (web)")
-		public final Action FORUM = createAction(() -> QuPathGUI.launchBrowserWindow(URL_FORUM));
+//		@ActionDescription("Visit the user forum. This is the place to ask questions (and give answers).")
+//		@ActionMenu("View user forum (web)")
+//		public final Action FORUM = createAction(() -> QuPathGUI.launchBrowserWindow(URL_FORUM));
 		
-		@ActionDescription("View the QuPath source code online.")
-		@ActionMenu("View source code (web)")
-		public final Action SOURCE = createAction(() -> QuPathGUI.launchBrowserWindow(URL_SOURCE));
+//		@ActionDescription("View the QuPath source code online.")
+//		@ActionMenu("View source code (web)")
+//		public final Action SOURCE = createAction(() -> QuPathGUI.launchBrowserWindow(URL_SOURCE));
 
-		public final Action SEP_3 = ActionTools.createSeparator();
+//		public final Action SEP_3 = ActionTools.createSeparator();
 
-		@ActionDescription("View license information for QuPath and its third-party dependencies.")
-		@ActionMenu("License")
-		public final Action LICENSE = Commands.createSingleStageAction(() -> Commands.createLicensesWindow(qupath));
+//		@ActionDescription("View license information for QuPath and its third-party dependencies.")
+//		@ActionMenu("License")
+//		public final Action LICENSE = Commands.createSingleStageAction(() -> Commands.createLicensesWindow(qupath));
 		
 		@ActionDescription("View system information.")
 		@ActionMenu("System info")

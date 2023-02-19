@@ -92,6 +92,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import qupath.lib.LocaleMessage;
 import qupath.lib.common.GeneralTools;
 import qupath.lib.common.ThreadTools;
 import qupath.lib.gui.ActionTools;
@@ -246,7 +247,9 @@ public class ProjectBrowser implements ChangeListener<ImageData<BufferedImage>> 
 		
 		qupath.getPreferencePane().addChoicePropertyPreference(
 				thumbnailSize, FXCollections.observableArrayList(ProjectThumbnailSize.values()), ProjectThumbnailSize.class,
-				"Project thumbnails size", "Appearance", "Choose thumbnail size for the project pane");
+				"Project thumbnails size",
+				LocaleMessage.getInstance().get("PreferencePane.Appearance"),
+				"Choose thumbnail size for the project pane");
 
 	}
 

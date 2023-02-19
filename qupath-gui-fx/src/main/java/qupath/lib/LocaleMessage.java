@@ -1,16 +1,21 @@
 package qupath.lib;
 
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import qupath.lib.gui.BuildInfo;
+import qupath.lib.gui.prefs.PathPrefs;
 
 import java.util.ResourceBundle;
 import java.util.Locale;
 
+/**
+ * Helper class to get strings from properties file with corresponding locale.
+ *
+ * @author HYS
+ *
+ */
 public class LocaleMessage {
 
-    private static final Logger logger = LoggerFactory.getLogger(BuildInfo.class);
+    private static final Logger logger = LoggerFactory.getLogger(LocaleMessage.class);
     private static final LocaleMessage INSTANCE = new LocaleMessage();
     private ResourceBundle bundle;
 
@@ -18,26 +23,22 @@ public class LocaleMessage {
         return INSTANCE;
     }
 
-    // 测试结束之后改成private
-    public LocaleMessage() {
-        // 1 设置总体的locale
-        Locale.setDefault(Locale.CHINA);
-//        System.out.println("locale="+Locale.CHINA);
-        // 2 获取配置文件
+    private LocaleMessage() {
+        // 1 set locale
+        Locale.setDefault(PathPrefs.defaultLocaleProperty().get());
+        // 2 get message properties
         bundle = ResourceBundle.getBundle("i18n.messages");
+//        ResourceBundle bundle1 = ResourceBundle.getBundle("i18n.extension_bioformat");
+//        logger.info("extension name="+bundle1.getString("extension.name"));
     }
 
     public String get(String key) {
         if(bundle.containsKey(key)) {
             return bundle.getString(key);
         }else{
-            logger.error("no key " + key + " in locale file.");
+            logger.error("no key of " + key + " in locale file.");
             return "";
         }
     }
 
-    @Test
-    public void Testa() {
-        LocaleMessage.getInstance().get("choose.theme");
-    }
 }
