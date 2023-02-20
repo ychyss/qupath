@@ -98,7 +98,7 @@ class Menus {
 					new MeasureMenuManager(),
 					new AutomateMenuManager(),
 					new AnalyzeMenuManager(),
-					new TMAMenuManager(),
+//					new TMAMenuManager(),
 					new ClassifyMenuManager(),
 					new ExtensionsMenuManager(),
 					new HelpMenuManager()

@@ -5,3 +5,6 @@ This project is forked from [qupath](https://www.github.com/qupath/qupath), we m
 **This project still follows GPL 3.0 license.**
 
 
+# Branch
+
+This branch removed some functions from origin project.

@@ -110,7 +110,7 @@ class WelcomeStage {
 		var paneButtons = PaneTools.createColumnGrid(btnDocs, btnForum, btnCode);
 //		paneButtons.setHgap(10);
 		// 按钮面板（DOCS discuss develop）
-		var pane = new BorderPane(paneButtons);
+		var pane = new BorderPane(); // paneButtons
 		// 图片
 		var imageView = new ImageView(WelcomeStage.class.getResource("/images/qupath-welcome.png").toExternalForm());
 		imageView.setFitWidth(440.0);
